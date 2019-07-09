@@ -96,9 +96,11 @@ activitiApp
             suffix: '.json'
         })
 
-        .registerAvailableLanguageKeys(['en'], {
+        .registerAvailableLanguageKeys(['en', 'zh-CN'], {
             'en_*': 'en',
-            'en-*': 'en'
+            'en-*': 'en',
+            'zh-*': 'zh-CN',
+            'zh_*': 'zh-CN'
         });
 
 
@@ -177,13 +179,23 @@ activitiApp
      }])
      .run(['$rootScope', '$location', '$window', 'AuthenticationSharedService', '$translate', '$modal',
         function($rootScope, $location, $window, AuthenticationSharedService, $translate, $modal) {
-         
+
+        // 添加中文处理
+        var language = navigator.language;
+        alert("language:" + language);
+        if ('zh-cn' == language || 'zh-CN' == language) {
+            $translate.preferredLanguage('zh-CN');
+        }
+
         var proposedLanguage = $translate.proposedLanguage();
+            alert("proposedLanguage:" + proposedLanguage);
         if (proposedLanguage !== 'de' && proposedLanguage !== 'en' && proposedLanguage !== 'es' && proposedLanguage !== 'fr'
             && proposedLanguage !== 'it' && proposedLanguage !== 'ja') {
             
             $translate.use('en');
         }
+
+        $translate.use('zh-CN');
          
         /* Auto-height */
 

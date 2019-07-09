@@ -95,9 +95,16 @@ activitiApp.config(['$provide', '$routeProvider', '$translateProvider', function
           suffix: '.json'
         });
 
-        $translateProvider.registerAvailableLanguageKeys(['en'], {
+        /*$translateProvider.registerAvailableLanguageKeys(['en'], {
             'en_*': 'en',
             'en-*': 'en'
+        });*/
+        // 注册中文
+        $translateProvider.registerAvailableLanguageKeys(['en', 'zh-CN'], {
+            'en_*': 'en',
+            'en-*': 'en',
+            'zh-*': 'zh-CN',
+            'zh_*': 'zh-CN'
         });
 
   }])
@@ -178,6 +185,12 @@ activitiApp.config(['$provide', '$routeProvider', '$translateProvider', function
         }])
     .run(['$rootScope', '$timeout', '$translate', '$location', '$window', 'AuthenticationSharedService',
         function($rootScope, $timeout, $translate, $location, $window, AuthenticationSharedService) {
+
+            // 添加中文处理
+            var language = navigator.language;
+            if ('zh-cn' == language || 'zh-CN' == language) {
+                $translate.preferredLanguage(language);
+            }
 
             var proposedLanguage = $translate.proposedLanguage();
             if (proposedLanguage !== 'de' && proposedLanguage !== 'en' && proposedLanguage !== 'es' && proposedLanguage !== 'fr'

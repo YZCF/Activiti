@@ -213,11 +213,19 @@ activitiModeler
             suffix: '.json'
         });
 
-        $translateProvider.registerAvailableLanguageKeys(['en'], {
+        /*$translateProvider.registerAvailableLanguageKeys(['en'], {
             'en_*': 'en',
             'en-*': 'en'
-        });
-        
+        });*/
+
+      // 注册中文
+      $translateProvider.registerAvailableLanguageKeys(['en', 'zh-CN'], {
+          'en_*': 'en',
+          'en-*': 'en',
+          'zh-*': 'zh-CN',
+          'zh_*': 'zh-CN'
+      });
+
   }])
   .run(['$rootScope', '$timeout', '$modal', '$translate', '$location', '$window', 'appResourceRoot',
         function($rootScope, $timeout, $modal, $translate, $location, $window, appResourceRoot) {
@@ -388,13 +396,22 @@ activitiModeler
   ])
   .run(['$rootScope', '$location', 'AuthenticationSharedService', 'Account', '$translate', '$window', '$modal',
         function($rootScope, $location, AuthenticationSharedService, Account, $translate, $window , $modal) {
-      
+
+            // 添加中文处理
+            var language = navigator.language;
+            alert("language:" + language);
+            if ('zh-cn' == language || 'zh-CN' == language) {
+                $translate.preferredLanguage('zh-CN');
+            }
+
             var proposedLanguage = $translate.proposedLanguage();
+            alert("proposedLanguage:" + proposedLanguage);
             if (proposedLanguage !== 'de' && proposedLanguage !== 'en' && proposedLanguage !== 'es' && proposedLanguage !== 'fr'
                 && proposedLanguage !== 'it' && proposedLanguage !== 'ja') {
               
-                $translate.use('en');
+                //$translate.use('en');
             }
+            $translate.use('zh-CN');
 
             var fixedUrlPart = '/editor/';
 
